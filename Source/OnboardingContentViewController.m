@@ -90,10 +90,10 @@ static CGFloat const kMainPageControlHeight = 35;
     self.buttonTextColor = DEFAULT_TEXT_COLOR;
     
     // default blocks
-    self.viewWillAppearBlock = ^{};
-    self.viewDidAppearBlock = ^{};
-    self.viewWillDisappearBlock = ^{};
-    self.viewDidDisappearBlock = ^{};
+    self.viewWillAppearBlock = ^void(OnboardingContentViewController *vcSelf){};
+    self.viewDidAppearBlock = ^void(OnboardingContentViewController *vcSelf){};
+    self.viewWillDisappearBlock = ^void(OnboardingContentViewController *vcSelf){};
+    self.viewDidDisappearBlock = ^void(OnboardingContentViewController *vcSelf){};
 
     return self;
 }
@@ -117,7 +117,7 @@ static CGFloat const kMainPageControlHeight = 35;
     // call our view will appear block
     if (self.viewWillAppearBlock) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            self.viewWillAppearBlock();
+            self.viewWillAppearBlock(self);
         });
     }
 }
@@ -134,7 +134,7 @@ static CGFloat const kMainPageControlHeight = 35;
     // call our view did appear block
     if (self.viewDidAppearBlock) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            self.viewDidAppearBlock();
+            self.viewDidAppearBlock(self);
         });
     }
 }
@@ -145,7 +145,7 @@ static CGFloat const kMainPageControlHeight = 35;
     // call our view will disappear block
     if (self.viewWillDisappearBlock) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            self.viewWillDisappearBlock();
+            self.viewWillDisappearBlock(self);
         });
     }
 }
@@ -156,7 +156,7 @@ static CGFloat const kMainPageControlHeight = 35;
     // call our view did disappear block
     if (self.viewDidDisappearBlock) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            self.viewDidDisappearBlock();
+            self.viewDidDisappearBlock(self);
         });
     }
 }
@@ -175,7 +175,12 @@ static CGFloat const kMainPageControlHeight = 35;
     CGFloat viewWidth = CGRectGetWidth(self.view.frame);
     CGFloat horizontalCenter = viewWidth / 2;
     CGFloat contentWidth = viewWidth * kContentWidthMultiplier;
-    
+
+    self.backgroundImageView = [[UIImageView alloc] initWithFrame:self.view.bounds];
+    self.backgroundImageView.contentMode = UIViewContentModeScaleAspectFill;
+    [self.backgroundImageView setImage:[UIImage imageWithColor:[UIColor clearColor]]];
+    [self.view addSubview:self.backgroundImageView];
+
     // create the image view with the appropriate image, size, and center in on screen
     _imageView = [[UIImageView alloc] initWithImage:_image];
     [_imageView setFrame:CGRectMake(horizontalCenter - (self.iconWidth / 2), self.topPadding, self.iconWidth, self.iconHeight)];

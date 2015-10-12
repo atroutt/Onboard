@@ -48,12 +48,14 @@
 @property (nonatomic) CGFloat bottomPadding;
 @property (nonatomic) CGFloat underPageControlPadding;
 
+@property (nonatomic, strong) UIImageView *backgroundImageView;
+
 @property (nonatomic, copy) dispatch_block_t buttonActionHandler;
 
-@property (nonatomic, copy) dispatch_block_t viewWillAppearBlock;
-@property (nonatomic, copy) dispatch_block_t viewDidAppearBlock;
-@property (nonatomic, copy) dispatch_block_t viewWillDisappearBlock;
-@property (nonatomic, copy) dispatch_block_t viewDidDisappearBlock;
+@property (nonatomic, copy) void (^viewWillAppearBlock)(OnboardingContentViewController *);
+@property (nonatomic, copy) void (^viewDidAppearBlock)(OnboardingContentViewController *);
+@property (nonatomic, copy) void (^viewWillDisappearBlock)(OnboardingContentViewController *);;
+@property (nonatomic, copy) void (^viewDidDisappearBlock)(OnboardingContentViewController *);;
 
 + (instancetype)contentWithTitle:(NSString *)title body:(NSString *)body image:(UIImage *)image buttonText:(NSString *)buttonText action:(dispatch_block_t)action;
 - (instancetype)initWithTitle:(NSString *)title body:(NSString *)body image:(UIImage *)image buttonText:(NSString *)buttonText action:(dispatch_block_t)action;
